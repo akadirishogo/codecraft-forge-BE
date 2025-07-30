@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const authRoutes = require('./routes/authRoutes')
+const paymentRoutes = require('./routes/paymentRoutes')
 
 
 const app = express();
@@ -16,5 +18,6 @@ if (process.env.NODE_ENV === 'development') {
 
 
 app.use('/api/auth', authRoutes);
+app.use('/api/pay', paymentRoutes)
 
 module.exports = app;
