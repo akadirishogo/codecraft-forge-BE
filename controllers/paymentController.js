@@ -1,10 +1,13 @@
 const Student = require('../models/Student')
+const axios = require('axios');
+
 
 exports.makePayment = async (req, res) => {
   const { name, email, track, amount } = req.body;
   const reference = `REF_${Date.now()}`; // optional: use Paystack-generated one
 
   try {
+    console.log(amount)
     const response = await axios.post(
       'https://api.paystack.co/transaction/initialize',
       {
