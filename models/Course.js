@@ -4,6 +4,7 @@ const slugify = require('slugify'); // we will install this
 const courseSchema = new mongoose.Schema({
   track: { type: String, required: true },
   description: String,
+  outline: [String],
   date: Date,
   price: Number,
   duration: Number,

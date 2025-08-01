@@ -7,7 +7,6 @@ exports.makePayment = async (req, res) => {
   const reference = `REF_${Date.now()}`; // optional: use Paystack-generated one
 
   try {
-    console.log(amount)
     const response = await axios.post(
       'https://api.paystack.co/transaction/initialize',
       {
@@ -60,6 +59,11 @@ exports.verifyPayment = async (req, res) => {
         { paymentReference: reference },
         { paymentStatus: 'paid' }
       );
+
+      const student = await Student.findOne({ paymentReference: reference });
+
+      if (student) { await sendConfirmationEmail(student.email, student.fullName, student.track)}
+      
 
       res.json({ verified: true, message: 'Payment successful!' });
     } else {
