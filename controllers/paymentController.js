@@ -1,5 +1,6 @@
 const Student = require('../models/Student')
 const axios = require('axios');
+const sendConfirmationEmail = require('../utils/sendEmail');
 
 
 exports.makePayment = async (req, res) => {
@@ -62,7 +63,7 @@ exports.verifyPayment = async (req, res) => {
 
       const student = await Student.findOne({ paymentReference: reference });
 
-      if (student) { await sendConfirmationEmail(student.email, student.fullName, student.track)}
+       if (student) await sendConfirmationEmail(student.email, student.fullName, student.track)
       
 
       res.json({ verified: true, message: 'Payment successful!' });

@@ -1,43 +1,41 @@
 const nodemailer = require('nodemailer');
+const brevoTransport = require('nodemailer-brevo-transport');
 
 const sendConfirmationEmail = async (toEmail, studentName, courseTrack) => {
-
-    const discordLinks = {
-    "Frontend Web Development": "https://discord.gg/frontend123",
-    "Backend Web Development": "https://discord.gg/backend456",
-    "Illustration": "https://discord.gg/illustration789",
-    "Python": "https://discord.gg/python789",
-    "UIUX Engineering": "https://discord.gg/uiux789",
-
+  const discordLinks = {
+    "Frontend Web Development": "https://discord.gg/XQAduSGn",
+    "Backend Web Development": "https://discord.gg/2awZ6vPs",
+    "Illustration": "https://discord.gg/xGFG2Sgd",
+    "Python": "https://discord.gg/nzEcQSVW",
+    "UIUX Engineering": "https://discord.gg/FtnE45Hs",
   };
 
-  const discordLink = discordLinks[courseTrack] || "https://discord.gg/general";
+  const discordLink = discordLinks[courseTrack];
 
   try {
-    // Configure transporter
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',  // Use your provider (Gmail, Outlook, etc.)
-      auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD, // Use App Password for Gmail
-      },
-    });
+    console.log('sending mail...');
+
+    const transporter = nodemailer.createTransport(
+      brevoTransport({
+        apiKey: process.env.BREVO_API_KEY,  // From Brevo dashboard
+      })
+    );
+    
 
     const mailOptions = {
-      from: `"CodeCraft Forge" <${process.env.EMAIL_USERNAME}>`,
+      from: `"CodeCraft Forge" <${process.env.BREVO_USERNAME}>`,  // sender email from Brevo
       to: toEmail,
       subject: 'Payment Confirmation - CodeCraft Forge',
       html: `
         <h2>Hi ${studentName},</h2>
         <p>🎉 Congratulations! Your payment has been successfully verified.</p>
         <p>You are now enrolled in the <strong>${courseTrack}</strong> track.</p>
-        <p>It is important you join your stack community here ${discordLink} as further information will be given there henceforth.</p>
+        <p>It is important you join your stack community here: <a href="${discordLink}" target="_blank">${discordLink}</a></p>
         <br />
         <p>Welcome aboard,<br/>CodeCraft Forge Team</p>
       `,
     };
 
-    // Send email
     await transporter.sendMail(mailOptions);
     console.log('Email sent successfully!');
   } catch (err) {
