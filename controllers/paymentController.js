@@ -62,8 +62,9 @@ exports.verifyPayment = async (req, res) => {
       );
 
       const student = await Student.findOne({ paymentReference: reference });
+      console.log(student)
 
-       if (student) await sendConfirmationEmail(student.email, student.fullName, student.track)
+       if (student) await sendConfirmationEmail(student.email, student.firstName, student.track)
       
 
       res.json({ verified: true, message: 'Payment successful!' });
