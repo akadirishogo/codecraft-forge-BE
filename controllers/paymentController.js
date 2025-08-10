@@ -1,11 +1,44 @@
-const Student = require('../models/Student')
+const crypto = require('crypto');
+const Student = require('../models/Student');
 const axios = require('axios');
 const sendConfirmationEmail = require('../utils/sendEmail');
 
+/**
+ * Shared function to confirm payment & update DB
+ */
+async function confirmAndProcessPayment(reference) {
+  const verifyRes = await axios.get(
+    `https://api.paystack.co/transaction/verify/${reference}`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+      },
+    }
+  );
 
+  const status = verifyRes.data.data.status;
+
+  if (status === 'success') {
+    const student = await Student.findOneAndUpdate(
+      { paymentReference: reference },
+      { paymentStatus: 'paid' },
+      { new: true }
+    );
+
+    if (student) {
+      await sendConfirmationEmail(student.email, student.firstName, student.track);
+    }
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Initializes payment
+ */
 exports.makePayment = async (req, res) => {
   const { name, email, track, amount } = req.body;
-  const reference = `REF_${Date.now()}`; // optional: use Paystack-generated one
 
   try {
     const response = await axios.post(
@@ -13,7 +46,6 @@ exports.makePayment = async (req, res) => {
       {
         email,
         amount: amount * 100, // kobo
-        callback_url: 'http://localhost:5173/payment-success',
       },
       {
         headers: {
@@ -23,7 +55,6 @@ exports.makePayment = async (req, res) => {
       }
     );
 
-    // Save student with reference
     await Student.create({
       firstName: name.split(' ')[0],
       lastName: name.split(' ')[1] || '',
@@ -41,32 +72,13 @@ exports.makePayment = async (req, res) => {
   }
 };
 
-
+/**
+ * Manual verification (backup + instant feedback)
+ */
 exports.verifyPayment = async (req, res) => {
-  const reference = req.params.reference;
-
   try {
-    const verifyRes = await axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-      },
-    });
-
-    const status = verifyRes.data.data.status;
-
-    if (status === 'success') {
-      // Update payment status
-      await Student.findOneAndUpdate(
-        { paymentReference: reference },
-        { paymentStatus: 'paid' }
-      );
-
-      const student = await Student.findOne({ paymentReference: reference });
-      console.log(student)
-
-       if (student) await sendConfirmationEmail(student.email, student.firstName, student.track)
-      
-
+    const success = await confirmAndProcessPayment(req.params.reference);
+    if (success) {
       res.json({ verified: true, message: 'Payment successful!' });
     } else {
       res.status(400).json({ verified: false, message: 'Payment not completed.' });
@@ -75,4 +87,32 @@ exports.verifyPayment = async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Verification failed' });
   }
+};
+
+/**
+ * Webhook handler (primary payment confirmation)
+ */
+exports.handleWebhook = async (req, res) => {
+  const secret = process.env.PAYSTACK_SECRET_KEY;
+  const hash = crypto
+    .createHmac('sha512', secret)
+    .update(JSON.stringify(req.body))
+    .digest('hex');
+
+  if (hash !== req.headers['x-paystack-signature']) {
+    return res.status(401).send('Invalid signature');
+  }
+
+  const event = req.body;
+
+  if (event.event === 'charge.success') {
+    const reference = event.data.reference;
+    try {
+      await confirmAndProcessPayment(reference);
+    } catch (err) {
+      console.error('Error processing webhook:', err);
+    }
+  }
+
+  res.sendStatus(200);
 };
