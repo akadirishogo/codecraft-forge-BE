@@ -1,0 +1,22 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "track": "Frontend Development",
+    "amountPaid": 20000,
+    "paymentReference": "PSK_abc123xyz",
+    "paymentStatus": "paid",
+    "createdAt": "2025-07-22T00:00:00.000Z"
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@example.com",
+    "track": "Backend Development",
+    "amountPaid": 25000,
+    "paymentReference": "PSK_xyz456abc",
+    "paymentStatus": "pending",
+    "createdAt": "2025-07-22T00:00:00.000Z"
+  }
+]

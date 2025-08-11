@@ -1,0 +1,8 @@
+[
+  {
+    "name": "Admin User",
+    "email": "admin@example.com",
+    "password": "hashed_password_here",
+    "createdAt": "2025-07-22T00:00:00.000Z"
+  }
+]

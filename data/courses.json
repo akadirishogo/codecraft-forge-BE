@@ -1,0 +1,139 @@
+[
+  {
+    "_id": "64f8c7e24fba2b1123ab1111",
+    "track": "Frontend Web Development",
+    "description": "Learn the fundamentals of front-end development while exploring modern AI / front-end development tools and frameworks to build responsive and interactive web applications.",
+    "price": 20000,
+    "slug": "frontend-development",
+    "createdAt": "2025-07-22T00:00:00.000Z",
+    "date": "7th August 2025",
+    "duration": 5,
+    "curriculum": "frontend",
+    "naira": 100000,
+    "dollar": 100,
+    "outline": [
+                "Introduction to Front-End Development", 
+                "HTML, CSS, JavaScript, React.js, Typescript from basics to Pro",
+                "Responsive Design Principles",
+                "Version Control with Git & GitHub",
+                "Building Real-World Applications",
+                "APIs & Fetching Data",
+                "Hands-on Practicals",
+                "Final Capstone Project"
+              ]
+  },
+  {
+    "_id": "64f8c7e24fba2b1123ab2222",
+    "track": "Backend Web Development",
+    "description": "Gain a solid foundation in back-end web development by mastering server-side programming, databases, APIs, and deployment tools. Learn to build secure, scalable, and efficient systems that power modern web applications.",
+    "price": 25000,
+    "slug": "backend-development",
+    "createdAt": "2025-07-22T00:00:00.000Z",
+    "date": "7th August 2025",
+    "duration": 4,
+    "naira": 120000,
+    "curriculum": "backend",
+    "dollar": 120,
+     "outline": [
+                "Introduction to Back-End Development", 
+                "HTML, CSS, Node.Js, Express.js, Database Management from basics to Pro",
+                "Database Management",
+                "Version Control with Git & GitHub",
+                "Building Real-World Applications",
+                "APIs & Fetching Data",
+                "Authentications",
+                "Hands-on Practicals",
+                "Final Capstone Project"
+              ]
+  },
+   {
+    "_id": "64f8c7e24fba2b1123ab4444",
+    "track": "Illustration",
+    "description": "Discover the art of digital storytelling through Figma. Learn to create captivating illustrations, icons, and UI visuals using vector techniques, design systems, and collaborative workflows that bring ideas to life with clarity and creativity.",
+    "price": 40000,
+    "slug": "illustration",
+    "createdAt": "2025-07-22T00:00:00.000Z",
+    "date": "7th August 2025",
+    "duration": 1,
+    "curriculum": "illustration",
+     "naira": 50000,
+    "dollar": 50,
+     "outline": [
+                "Introduction to Digital Illustration", 
+                "Figma Essentials for Illustrators",
+                "Drawing with Vectors",
+                "Visual Composition & Storytelling",
+                "Character & Icon Design",
+                "Brand & Product Illustrations",
+                "Design Systems & Illustration Libraries",
+                "Motion & Animation in Figma",
+                "Export & Collaboration",
+                "AI Tools & Illustration Automation",
+                "Portfolio & Real-World Projects"
+              ]
+  },
+   {
+    "_id": "64f8c7e24fba2b1123ab5555",
+    "track": "Python",
+    "description": "Learn the fundamentals of Python programming, focusing on data structures, algorithms, and real-world applications. Develop problem-solving skills and build a strong foundation for further studies in data science, web development, and automation.",
+    "price": 40000,
+    "slug": "python",
+    "createdAt": "2025-07-22T00:00:00.000Z",
+    "date": "7th August 2025",
+    "duration": 3,
+    "curriculum": "python",
+     "naira": 90000,
+    "dollar": 90,
+     "outline": [
+                "Core Python Programming", 
+                "HTML & CSS",
+                "Data Structures & Algorithms",
+                "Object-Oriented Programming (OOP)",
+                "File Handling & Automation",
+                "Web Development with Python (Backend)",
+                "Databases & ORM",
+                "Testing & Debugging",
+                "Version Control with Git & GitHub",
+                "Working with APIs & JSON",
+                "Data Analysis Foundations (Intro to Data Science)",
+                "Deploying Python Apps",
+                "Intro to AI & Automation Tools",
+                "Real-World Projects & Capstone"
+              ]
+  },
+
+  {
+    "_id": "64f8c7e24fba2b1123ab6666",
+    "track": "UIUX Engineering",
+    "description": "Learn the fundamentals of UI/UX design while exploring modern AI-driven design tools, user research methods, Atomic Design Principles, and industry frameworks to create intuitive, engaging, and accessible digital experiences.",
+    "price": 40000,
+    "slug": "uiux-Engineering",
+    "createdAt": "2025-07-22T00:00:00.000Z",
+    "date": "7th August 2025",
+    "duration": 4,
+    "curriculum": "uiux",
+     "naira": 50000,
+    "dollar": 50,
+     "outline": [
+                "Introduction to UI/UX", 
+                "User Research & Discovery",
+                "Design Thinking & Process",
+                "UI Design & Visual Craft",
+                "Figma & Design Tools",
+                "UX Writing & Microcopy",
+                "Information Architecture (IA)",
+                "Prototyping & User Testing",
+                "Design Systems & Consistency",
+                "Handoff to Developers",
+                "AI-Powered Design Tools",
+                "Portfolio & Real-world Projects",
+                "HTML & CSS for personal Portfolio development"
+                ]
+        }
+]
+
+
+
+
+
+

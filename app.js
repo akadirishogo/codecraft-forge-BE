@@ -3,6 +3,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const authRoutes = require('./routes/authRoutes')
 const paymentRoutes = require('./routes/paymentRoutes')
+const courseRoutes = require('./routes/courseRoutes');
+
 
 
 const app = express();
@@ -27,5 +29,6 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/pay', paymentRoutes)
+app.use('/api/courses', courseRoutes);
 
 module.exports = app;
