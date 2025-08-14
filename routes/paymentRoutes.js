@@ -10,8 +10,10 @@ router.post('/', makePayment)
 router.get('/verifyPayment/:reference', verifyPayment);
 
 // Webhook route (must use raw body parser for signature check)
-router.post('/webhook',
-  express.raw({ type: 'application/json' }), handleWebhook
+router.post(
+  '/webhook',
+  express.raw({ type: 'application/json' }),
+  handleWebhook
 );
 
 module.exports = router;

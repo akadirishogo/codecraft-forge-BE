@@ -1,18 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const authRoutes = require('./routes/authRoutes')
-const paymentRoutes = require('./routes/paymentRoutes')
+
+const authRoutes = require('./routes/authRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 const courseRoutes = require('./routes/courseRoutes');
-
-
 
 const app = express();
 app.use(cors());
-app.use(express.json());
 
-
-// Parse JSON for all routes except the webhook
+// For all routes except webhook, parse JSON
 app.use((req, res, next) => {
   if (req.originalUrl === '/api/pay/webhook') {
     next();
@@ -26,9 +23,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-
 app.use('/api/auth', authRoutes);
-app.use('/api/pay', paymentRoutes)
+app.use('/api/pay', paymentRoutes);
 app.use('/api/courses', courseRoutes);
 
 module.exports = app;
