@@ -46,8 +46,8 @@ exports.makePayment = async (req, res) => {
       'https://api.paystack.co/transaction/initialize',
       {
         email,
-        amount: amount * 100, // Paystack expects kobo
-        callback_url: 'https://codecraftforge.com/payment-sucess'
+        amount: amount * 100,
+        //callback_url: 'https://codecraftforge.com/payment-sucess'
       },
       {
         headers: {
