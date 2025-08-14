@@ -41,11 +41,12 @@ exports.makePayment = async (req, res) => {
   const { name, email, track, amount } = req.body;
 
   try {
-    const response = await axios.post(
+    // Step 1: Initialize payment with Paystack
+    const paystackRes = await axios.post(
       'https://api.paystack.co/transaction/initialize',
       {
         email,
-        amount: amount * 100, // kobo
+        amount: amount * 100, // Paystack expects kobo
       },
       {
         headers: {
@@ -55,22 +56,36 @@ exports.makePayment = async (req, res) => {
       }
     );
 
-    await Student.create({
-      firstName: name.split(' ')[0],
-      lastName: name.split(' ')[1] || '',
-      email,
-      track,
-      amountPaid: amount,
-      paymentReference: response.data.data.reference,
-      paymentStatus: 'pending',
-    });
+    const reference = paystackRes.data?.data?.reference;
+    const authorizationUrl = paystackRes.data?.data?.authorization_url;
 
-    res.json({ authorization_url: response.data.data.authorization_url });
+    if (!authorizationUrl) {
+      return res.status(500).json({ error: 'Payment initialization failed at Paystack' });
+    }
+
+    try {
+      await Student.create({
+        firstName: name.split(' ')[0],
+        lastName: name.split(' ')[1] || '',
+        email,
+        track,
+        amountPaid: amount,
+        paymentReference: reference,
+        paymentStatus: 'pending',
+      });
+    } catch (dbErr) {
+      console.error('DB Error:', dbErr);
+      return res.status(500).json({ error: 'Payment initialized but could not save student record' });
+    }
+
+    res.json({ authorization_url: authorizationUrl });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Payment init failed' });
+    console.error('Paystack Init Error:', err.response?.data || err.message);
+    res.status(500).json({ error: 'Could not start payment process' });
   }
 };
+
 
 /**
  * Manual verification (backup + instant feedback)
