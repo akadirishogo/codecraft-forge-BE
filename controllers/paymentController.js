@@ -75,7 +75,7 @@ exports.makePayment = async (req, res) => {
       });
     } catch (dbErr) {
       console.error('DB Error:', dbErr);
-      return res.status(500).json({ error: 'Payment initialized but could not save student record' });
+      return res.status(500).json({ error: 'Email already exist' });
     }
 
     res.json({ authorization_url: authorizationUrl });
